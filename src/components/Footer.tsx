@@ -1,8 +1,34 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useEffect } from 'react';
+import { motion, useAnimation, AnimatePresence } from 'framer-motion';
 import { Facebook, Instagram, Twitter, Youtube, ArrowUp } from 'lucide-react';
 
 const Footer = () => {
+  const controls = useAnimation();
+
+  useEffect(() => {
+    controls.start("visible");
+  }, []);
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.3
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: { duration: 0.5 }
+    }
+  };
+
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
@@ -11,110 +37,146 @@ const Footer = () => {
   };
 
   return (
-    <footer className="bg-black relative pt-16 pb-8">
-      <div className="container mx-auto px-4">
+    <footer className="bg-black relative pt-16 pb-8 overflow-hidden">
+      <motion.div
+        className="absolute inset-0 bg-gradient-to-b from-gray-900/50 to-black"
+        animate={{
+          backgroundPosition: ['0% 0%', '100% 100%'],
+        }}
+        transition={{ duration: 15, repeat: Infinity, repeatType: "reverse" }}
+      />
+
+      <motion.div
+        initial="hidden"
+        animate="visible"
+        variants={containerVariants}
+        className="container mx-auto px-4 relative z-10"
+      >
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
-          <div className="md:col-span-2">
-            <a href="#home" className="flex items-center mb-6">
-              <img 
+          <motion.div 
+            variants={itemVariants}
+            className="md:col-span-2"
+          >
+            <motion.a
+              href="#home"
+              whileHover={{ scale: 1.05 }}
+              className="flex items-center mb-6"
+            >
+              <motion.img 
                 src="https://pbs.twimg.com/media/GqZ1YMWW8AAN8VH?format=jpg&name=900x900" 
                 alt="Leslie Auto Performance Logo" 
                 className="h-40 w-auto"
+                whileHover={{ filter: "brightness(1.2)" }}
               />
-            </a>
-            <p className="text-gray-400 mb-6 max-w-md">
+            </motion.a>
+            
+            <motion.p variants={itemVariants} className="text-gray-400 mb-6 max-w-md">
               Premium automotive services with a focus on quality, precision, and customer satisfaction. 
               From routine maintenance to custom performance builds.
-            </p>
-            <div className="flex space-x-4">
-              <motion.a 
-                href="#" 
-                whileHover={{ y: -3, color: '#f97316' }}
-                className="text-gray-400 hover:text-white transition-colors"
+            </motion.p>
+
+            <motion.div className="flex space-x-4">
+              {[
+                { icon: Facebook, color: '#1877f2' },
+                { icon: Instagram, color: '#e4405f' },
+                { icon: Twitter, color: '#1da1f2' },
+                { icon: Youtube, color: '#ff0000' }
+              ].map((social, index) => (
+                <motion.a
+                  key={index}
+                  href="#"
+                  whileHover={{ 
+                    y: -5,
+                    scale: 1.2,
+                    color: social.color,
+                    boxShadow: `0 0 20px ${social.color}40`
+                  }}
+                  whileTap={{ scale: 0.9 }}
+                  className="text-gray-400 hover:text-white p-2 rounded-full bg-gray-800/50 backdrop-blur-sm"
+                >
+                  <social.icon size={20} />
+                </motion.a>
+              ))}
+            </motion.div>
+          </motion.div>
+
+          {['Quick Links', 'Services'].map((title, index) => (
+            <motion.div
+              key={title}
+              variants={itemVariants}
+              className="relative"
+            >
+              <motion.h3 
+                className="text-lg font-bold mb-4"
+                whileHover={{ color: 'var(--accent-500)' }}
               >
-                <Facebook size={20} />
-              </motion.a>
-              <motion.a 
-                href="#" 
-                whileHover={{ y: -3, color: '#f97316' }}
-                className="text-gray-400 hover:text-white transition-colors"
+                {title}
+              </motion.h3>
+              <motion.ul 
+                className="space-y-3"
+                variants={containerVariants}
               >
-                <Instagram size={20} />
-              </motion.a>
-              <motion.a 
-                href="#" 
-                whileHover={{ y: -3, color: '#f97316' }}
-                className="text-gray-400 hover:text-white transition-colors"
-              >
-                <Twitter size={20} />
-              </motion.a>
-              <motion.a 
-                href="#" 
-                whileHover={{ y: -3, color: '#f97316' }}
-                className="text-gray-400 hover:text-white transition-colors"
-              >
-                <Youtube size={20} />
-              </motion.a>
-            </div>
-          </div>
-          
-          <div>
-            <h3 className="text-lg font-bold mb-4">Quick Links</h3>
-            <ul className="space-y-3">
-              <li>
-                <a href="#home" className="text-gray-400 hover:text-white transition-colors">Home</a>
-              </li>
-              <li>
-                <a href="#services" className="text-gray-400 hover:text-white transition-colors">Services</a>
-              </li>
-              <li>
-                <a href="#about" className="text-gray-400 hover:text-white transition-colors">About</a>
-              </li>
-              <li>
-                <a href="#partners" className="text-gray-400 hover:text-white transition-colors">Partners</a>
-              </li>
-              <li>
-                <a href="#contact" className="text-gray-400 hover:text-white transition-colors">Contact</a>
-              </li>
-            </ul>
-          </div>
-          
-          <div>
-            <h3 className="text-lg font-bold mb-4">Services</h3>
-            <ul className="space-y-3">
-              <li>
-                <a href="#services" className="text-gray-400 hover:text-white transition-colors">Customization</a>
-              </li>
-              <li>
-                <a href="#services" className="text-gray-400 hover:text-white transition-colors">Performance</a>
-              </li>
-              <li>
-                <a href="#services" className="text-gray-400 hover:text-white transition-colors">Maintenance</a>
-              </li>
-              <li>
-                <a href="#services" className="text-gray-400 hover:text-white transition-colors">ECU Tuning</a>
-              </li>
-              <li>
-                <a href="#services" className="text-gray-400 hover:text-white transition-colors">Safety Inspections</a>
-              </li>
-            </ul>
-          </div>
+                {title === 'Quick Links' ? (
+                  ['Home', 'Services', 'About', 'Partners', 'Contact'].map((link, idx) => (
+                    <motion.li
+                      key={idx}
+                      whileHover={{ x: 5, color: 'var(--accent-500)' }}
+                      className="transition-colors duration-200"
+                    >
+                      <a href={`#${link.toLowerCase()}`} className="text-gray-400 hover:text-white transition-colors">
+                        {link}
+                      </a>
+                    </motion.li>
+                  ))
+                ) : (
+                  ['Customization', 'Performance', 'Maintenance', 'ECU Tuning', 'Safety Inspections'].map((service, idx) => (
+                    <motion.li
+                      key={idx}
+                      whileHover={{ x: 5, color: 'var(--accent-500)' }}
+                      className="transition-colors duration-200"
+                    >
+                      <a href="#services" className="text-gray-400 hover:text-white transition-colors">
+                        {service}
+                      </a>
+                    </motion.li>
+                  ))
+                )}
+              </motion.ul>
+            </motion.div>
+          ))}
         </div>
-        
-        <div className="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center">
-          <p className="text-gray-500 text-sm mb-4 md:mb-0">
+
+        <motion.div 
+          variants={itemVariants}
+          className="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center"
+        >
+          <motion.p 
+            variants={itemVariants}
+            className="text-gray-500 text-sm mb-4 md:mb-0"
+          >
             © {new Date().getFullYear()} Leslie Auto Performance. All rights reserved.
-          </p>
+          </motion.p>
+
           <motion.button
             onClick={scrollToTop}
-            whileHover={{ y: -5 }}
-            className="bg-gray-900 p-3 rounded-full"
-            aria-label="Scroll to top"
+            whileHover={{ 
+              y: -5,
+              boxShadow: '0 0 20px var(--accent-500)'
+            }}
+            whileTap={{ scale: 0.9 }}
+            className="bg-gray-900 p-3 rounded-full relative group overflow-hidden"
           >
-            <ArrowUp size={20} className="text-accent-500" />
+            <motion.div
+              className="absolute inset-0 bg-accent-500 opacity-0 group-hover:opacity-20 transition-opacity"
+              animate={{
+                scale: [1, 1.5, 1],
+              }}
+              transition={{ duration: 1.5, repeat: Infinity }}
+            />
+            <ArrowUp size={20} className="text-accent-500 relative z-10" />
           </motion.button>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
     </footer>
   );
 };

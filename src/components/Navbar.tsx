@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import logo from "../images/logo-removebg-preview.png";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const { scrollYProgress } = useScroll();
+  const carX = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+  const carRotate = useTransform(scrollYProgress, [0, 0.1], [0, -5]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -31,12 +34,85 @@ const Navbar = () => {
     { name: 'Contact', href: '#contact' },
   ];
 
+  const CarAnimation = () => (
+    <motion.div
+      className="absolute bottom-0 left-0 w-full h-1 overflow-hidden"
+      style={{ opacity: scrolled ? 1 : 0 }}
+    >
+      {/* Speed lines */}
+      {[...Array(10)].map((_, i) => (
+        <motion.div
+          key={i}
+          className="absolute h-px bg-accent-500/30"
+          style={{
+            left: `${i * 10}%`,
+            width: "50px",
+            opacity: scrolled ? 1 : 0,
+          }}
+          animate={{
+            x: [-50, window.innerWidth],
+            opacity: [0, 1, 0],
+          }}
+          transition={{
+            duration: 2,
+            repeat: Infinity,
+            delay: i * 0.1,
+            ease: "linear",
+          }}
+        />
+      ))}
+
+      {/* Car animation */}
+      <motion.div
+        className="absolute bottom-1 h-8"
+        style={{ x: carX, rotate: carRotate }}
+      >
+        <svg width="60" height="20" viewBox="0 0 60 20" className="fill-accent-500">
+          <motion.path
+            d="M5,15 L10,15 C15,15 20,12 25,12 L35,12 C40,12 45,15 50,15 L55,15 C57,15 58,14 58,12 L58,10 C58,8 57,7 55,7 L50,7 C45,7 40,4 35,4 L25,4 C20,4 15,7 10,7 L5,7 C3,7 2,8 2,10 L2,12 C2,14 3,15 5,15 Z"
+          />
+          {/* Wheels */}
+          <motion.circle
+            cx="20"
+            cy="15"
+            r="3"
+            className="fill-gray-800"
+            animate={{ rotate: 360 }}
+            transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+          />
+          <motion.circle
+            cx="40"
+            cy="15"
+            r="3"
+            className="fill-gray-800"
+            animate={{ rotate: 360 }}
+            transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+          />
+          {/* Headlight glow */}
+          <motion.circle
+            cx="55"
+            cy="11"
+            r="2"
+            className="fill-yellow-500/50"
+            animate={{ opacity: [0.5, 1, 0.5] }}
+            transition={{ duration: 1, repeat: Infinity }}
+          />
+        </svg>
+      </motion.div>
+    </motion.div>
+  );
+
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled ? 'glass backdrop-blur-lg bg-black/30 py-1 shadow-lg' : 'bg-transparent py-2'
+        scrolled 
+          ? 'glass backdrop-blur-lg bg-black/30 py-1 shadow-lg border-b border-accent-500/20' 
+          : 'bg-transparent py-2'
       }`}
     >
+      {/* Add car animation */}
+      <CarAnimation />
+      
       <nav className="container mx-auto px-4 -m-8 flex justify-between items-center">
         <motion.a 
           href="#home" 

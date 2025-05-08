@@ -60,13 +60,21 @@ const ServiceCard = ({ service, index }: { service: typeof serviceData[0], index
   }, [controls, inView]);
 
   const cardVariants = {
-    hidden: { y: 50, opacity: 0 },
+    hidden: { 
+      y: 100,
+      opacity: 0,
+      scale: 0.8,
+      rotate: -5
+    },
     visible: {
       y: 0,
       opacity: 1,
+      scale: 1,
+      rotate: 0,
       transition: {
-        duration: 0.6,
-        delay: index * 0.1,
+        duration: 0.8,
+        delay: index * 0.15,
+        ease: "easeOut",
       },
     },
   };
@@ -77,9 +85,24 @@ const ServiceCard = ({ service, index }: { service: typeof serviceData[0], index
       variants={cardVariants}
       initial="hidden"
       animate={controls}
-      className="bg-gray-900 p-6 rounded-md service-card border border-gray-800"
+      whileHover={{ 
+        scale: 1.05,
+        rotate: 2,
+        transition: { duration: 0.2 }
+      }}
+      whileTap={{ scale: 0.95 }}
+      className="bg-gray-900 p-6 rounded-md service-card border border-gray-800 hover:border-accent-500 transition-colors duration-300"
     >
-      <div className="mb-4">{service.icon}</div>
+      <motion.div 
+        className="mb-4"
+        whileHover={{ 
+          rotate: 360,
+          scale: 1.2,
+          transition: { duration: 0.6 }
+        }}
+      >
+        {service.icon}
+      </motion.div>
       <h3 className="text-xl font-bold mb-2">{service.title}</h3>
       <p className="text-gray-400">{service.description}</p>
     </motion.div>
@@ -100,20 +123,56 @@ const Services = () => {
   }, [controls, inView]);
 
   const titleVariants = {
-    hidden: { y: 30, opacity: 0 },
+    hidden: { 
+      y: 50,
+      opacity: 0,
+      scale: 0.9
+    },
     visible: {
       y: 0,
       opacity: 1,
+      scale: 1,
       transition: {
-        duration: 0.8,
+        duration: 1,
         ease: [0.17, 0.67, 0.83, 0.67],
+        when: "beforeChildren",
+        staggerChildren: 0.2
       },
     },
   };
 
+  const backgroundVariants = {
+    hidden: { opacity: 0 },
+    visible: { 
+      opacity: 1,
+      transition: { 
+        duration: 1.5
+      }
+    }
+  };
+
   return (
-    <section id="services" className="py-24 relative">
-      <div className="absolute inset-0 bg-gradient-to-b from-gray-900 to-black z-0"></div>
+    <section id="services" className="py-24 relative overflow-hidden">
+      <motion.div 
+        className="absolute inset-0 bg-gradient-to-b from-gray-900 to-black z-0"
+        variants={backgroundVariants}
+        initial="hidden"
+        animate="visible"
+      />
+      <motion.div
+        className="absolute inset-0 opacity-10"
+        style={{
+          backgroundImage: `radial-gradient(circle at 50% 50%, rgba(var(--accent-500), 0.1) 0%, transparent 50%)`,
+        }}
+        animate={{
+          scale: [1, 1.2, 1],
+        }}
+        transition={{
+          duration: 8,
+          repeat: Infinity,
+          repeatType: "reverse"
+        }}
+      />
       <div className="container mx-auto px-4 relative z-10">
         <motion.div
           ref={ref}
@@ -122,10 +181,28 @@ const Services = () => {
           animate={controls}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">Our Services</h2>
-          <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+          <motion.h2 
+            className="text-4xl md:text-5xl font-bold mb-4"
+            whileHover={{
+              scale: 1.05,
+              transition: { duration: 0.2 }
+            }}
+          >
+            Our Services
+          </motion.h2>
+          <motion.p 
+            className="text-xl text-gray-400 max-w-2xl mx-auto"
+            variants={{
+              hidden: { opacity: 0, y: 20 },
+              visible: { 
+                opacity: 1,
+                y: 0,
+                transition: { duration: 0.6 }
+              }
+            }}
+          >
             Premium automotive services delivered with precision and expertise
-          </p>
+          </motion.p>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">

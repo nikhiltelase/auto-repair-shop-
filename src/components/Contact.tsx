@@ -21,26 +21,42 @@ const Contact = () => {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.2,
+        staggerChildren: 0.3,
+        delayChildren: 0.2,
       },
     },
   };
 
   const itemVariants = {
-    hidden: { y: 30, opacity: 0 },
+    hidden: { y: 50, opacity: 0, scale: 0.9 },
     visible: {
       y: 0,
       opacity: 1,
+      scale: 1,
       transition: {
-        duration: 0.6,
+        duration: 0.8,
         ease: [0.17, 0.67, 0.83, 0.67],
       },
     },
   };
 
+  const iconAnimation = {
+    hover: {
+      scale: 1.2,
+      rotate: 360,
+      transition: { duration: 0.8, ease: "easeInOut" }
+    }
+  };
+
   return (
     <section id="contact" className="py-24 relative bg-gray-950">
-      <div className="absolute inset-0 bg-gradient-to-b from-black to-gray-950 z-0"></div>
+      <motion.div 
+        className="absolute inset-0 bg-gradient-to-b from-black to-gray-950 z-0"
+        animate={{
+          backgroundPosition: ['0% 0%', '100% 100%'],
+        }}
+        transition={{ duration: 20, repeat: Infinity, repeatType: "reverse" }}
+      />
       <div className="container mx-auto px-4 relative z-10">
         <motion.div
           ref={ref}
@@ -51,7 +67,11 @@ const Contact = () => {
         >
           <motion.h2 
             variants={itemVariants}
-            className="text-4xl md:text-5xl font-bold mb-4"
+            className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-accent-500 via-primary-500 to-accent-500 bg-clip-text text-transparent bg-[size:200%]"
+            animate={{
+              backgroundPosition: ['0%', '200%'],
+            }}
+            transition={{ duration: 3, repeat: Infinity }}
           >
             Contact Us
           </motion.h2>
@@ -64,60 +84,44 @@ const Contact = () => {
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            animate={controls}
-            className="space-y-8"
-          >
-            <motion.div variants={itemVariants} className="flex items-start">
-              <div className="bg-accent-500/10 p-3 rounded-md mr-4">
-                <MapPin className="w-6 h-6 text-accent-500" />
-              </div>
-              <div>
-                <h3 className="text-xl font-bold mb-1">Our Location</h3>
-                <p className="text-gray-400">232 Fairall St unit 2B, Ajax, ON L1S 1R6</p>
-              </div>
-            </motion.div>
-
-            <motion.div variants={itemVariants} className="flex items-start">
-              <div className="bg-accent-500/10 p-3 rounded-md mr-4">
-                <Phone className="w-6 h-6 text-accent-500" />
-              </div>
-              <div>
-                <h3 className="text-xl font-bold mb-1">Phone</h3>
-                <p className="text-gray-400">(905) 555-1234</p>
-              </div>
-            </motion.div>
-
-            <motion.div variants={itemVariants} className="flex items-start">
-              <div className="bg-accent-500/10 p-3 rounded-md mr-4">
-                <Mail className="w-6 h-6 text-accent-500" />
-              </div>
-              <div>
-                <h3 className="text-xl font-bold mb-1">Email</h3>
-                <p className="text-gray-400">info@leslieautoperformance.com</p>
-              </div>
-            </motion.div>
-
-            <motion.div variants={itemVariants} className="flex items-start">
-              <div className="bg-accent-500/10 p-3 rounded-md mr-4">
-                <Clock className="w-6 h-6 text-accent-500" />
-              </div>
-              <div>
-                <h3 className="text-xl font-bold mb-1">Hours</h3>
-                <p className="text-gray-400">Monday-Friday: 8am - 6pm</p>
-                <p className="text-gray-400">Saturday: 9am - 4pm</p>
-                <p className="text-gray-400">Sunday: Closed</p>
-              </div>
-            </motion.div>
+          <motion.div variants={containerVariants} initial="hidden" animate={controls} className="space-y-8">
+            {[
+              { icon: MapPin, title: "Our Location", content: "232 Fairall St unit 2B, Ajax, ON L1S 1R6" },
+              { icon: Phone, title: "Phone", content: "(905) 555-1234" },
+              { icon: Mail, title: "Email", content: "info@leslieautoperformance.com" },
+              { icon: Clock, title: "Hours", content: ["Monday-Friday: 8am - 6pm", "Saturday: 9am - 4pm", "Sunday: Closed"] }
+            ].map((item, index) => (
+              <motion.div
+                key={index}
+                variants={itemVariants}
+                whileHover={{ scale: 1.02, x: 10 }}
+                className="flex items-start group"
+              >
+                <motion.div
+                  className="bg-accent-500/10 p-3 rounded-md mr-4 group-hover:bg-accent-500/20 transition-colors duration-300"
+                  variants={iconAnimation}
+                  whileHover="hover"
+                >
+                  <item.icon className="w-6 h-6 text-accent-500" />
+                </motion.div>
+                <div>
+                  <h3 className="text-xl font-bold mb-1">{item.title}</h3>
+                  {Array.isArray(item.content) ? (
+                    item.content.map((line, idx) => <p key={idx} className="text-gray-400">{line}</p>)
+                  ) : (
+                    <p className="text-gray-400">{item.content}</p>
+                  )}
+                </div>
+              </motion.div>
+            ))}
           </motion.div>
 
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="bg-gray-900 p-8 rounded-lg border border-gray-800"
+            className="bg-gray-900/50 backdrop-blur-sm p-8 rounded-lg border border-gray-800 shadow-xl"
+            whileHover={{ boxShadow: "0 0 30px rgba(var(--accent-500), 0.2)" }}
           >
             <h3 className="text-2xl font-bold mb-6">Send Us a Message</h3>
             <form className="space-y-6">
@@ -125,10 +129,12 @@ const Contact = () => {
                 <label htmlFor="name" className="block text-sm font-medium text-gray-400 mb-1">
                   Your Name
                 </label>
-                <input
+                <motion.input
                   type="text"
                   id="name"
-                  className="w-full bg-gray-800 border border-gray-700 rounded-md py-3 px-4 text-white focus:outline-none focus:ring-2 focus:ring-accent-500"
+                  whileFocus={{ scale: 1.02 }}
+                  transition={{ duration: 0.2 }}
+                  className="w-full bg-gray-800 border border-gray-700 rounded-md py-3 px-4 text-white focus:outline-none focus:ring-2 focus:ring-accent-500 transform-gpu"
                 />
               </div>
               
@@ -136,10 +142,12 @@ const Contact = () => {
                 <label htmlFor="email" className="block text-sm font-medium text-gray-400 mb-1">
                   Email Address
                 </label>
-                <input
+                <motion.input
                   type="email"
                   id="email"
-                  className="w-full bg-gray-800 border border-gray-700 rounded-md py-3 px-4 text-white focus:outline-none focus:ring-2 focus:ring-accent-500"
+                  whileFocus={{ scale: 1.02 }}
+                  transition={{ duration: 0.2 }}
+                  className="w-full bg-gray-800 border border-gray-700 rounded-md py-3 px-4 text-white focus:outline-none focus:ring-2 focus:ring-accent-500 transform-gpu"
                 />
               </div>
               
@@ -147,20 +155,35 @@ const Contact = () => {
                 <label htmlFor="message" className="block text-sm font-medium text-gray-400 mb-1">
                   Message
                 </label>
-                <textarea
+                <motion.textarea
                   id="message"
                   rows={4}
-                  className="w-full bg-gray-800 border border-gray-700 rounded-md py-3 px-4 text-white focus:outline-none focus:ring-2 focus:ring-accent-500"
-                ></textarea>
+                  whileFocus={{ scale: 1.02 }}
+                  transition={{ duration: 0.2 }}
+                  className="w-full bg-gray-800 border border-gray-700 rounded-md py-3 px-4 text-white focus:outline-none focus:ring-2 focus:ring-accent-500 transform-gpu"
+                ></motion.textarea>
               </div>
               
               <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="w-full bg-accent-500 text-black font-bold py-3 px-6 rounded-md transition-all hover:bg-accent-600"
-                type="button"
+                whileHover={{ 
+                  scale: 1.05,
+                  boxShadow: "0 0 20px rgba(var(--accent-500), 0.5)",
+                }}
+                whileTap={{ scale: 0.95 }}
+                className="w-full bg-gradient-to-r from-accent-500 to-primary-500 text-black font-bold py-3 px-6 rounded-md relative overflow-hidden"
               >
-                Send Message
+                <motion.div
+                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent"
+                  animate={{
+                    x: ['-100%', '100%'],
+                  }}
+                  transition={{
+                    duration: 1.5,
+                    repeat: Infinity,
+                    repeatType: "loop",
+                  }}
+                />
+                <span className="relative z-10">Send Message</span>
               </motion.button>
             </form>
           </motion.div>
