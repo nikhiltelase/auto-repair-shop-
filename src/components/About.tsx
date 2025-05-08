@@ -152,7 +152,7 @@ const About = () => {
             <div className="relative overflow-hidden rounded-md shadow-xl">
               <div className="absolute inset-0 bg-gradient-to-r from-accent-500/30 to-primary-900/30 mix-blend-multiply rounded-md"></div>
               <img
-              src='https://sdmntprwestus3.oaiusercontent.com/files/00000000-b638-61fd-ad82-14e67db5e400/raw?se=2025-05-08T09%3A43%3A22Z&sp=r&sv=2024-08-04&sr=b&scid=00000000-0000-0000-0000-000000000000&skoid=9ccea605-1409-4478-82eb-9c83b25dc1b0&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-05-08T01%3A53%3A32Z&ske=2025-05-09T01%3A53%3A32Z&sks=b&skv=2024-08-04&sig=0FCRp21bCUFqOPMQsmyhPzYJcb8D9w/8i2R/rO4DVQQ%3D' 
+                src='https://pbs.twimg.com/media/Gqa5qO1WMAA9BqO?format=jpg&name=900x900'
                 alt="Performance car showcase" 
                 className="w-full h-[500px] object-cover rounded-md"
               />
