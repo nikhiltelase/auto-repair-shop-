@@ -1,0 +1,96 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: black;
+  color: white;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+}
+
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.glass {
+  background: rgba(23, 23, 23, 0.5);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.text-stroke {
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.3);
+  color: transparent;
+}
+
+.clip-path-slant {
+  clip-path: polygon(0 0, 100% 5%, 100% 100%, 0 95%);
+}
+
+.service-card {
+  transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.service-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.loader {
+  background: linear-gradient(90deg, #000, #111, #000);
+  background-size: 200% 100%;
+  animation: gradient 2s ease infinite;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.canvas-container {
+  position: relative;
+  height: 400px;
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .canvas-container {
+    height: 500px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .canvas-container {
+    height: 600px;
+  }
+}
