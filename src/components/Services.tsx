@@ -85,26 +85,19 @@ const ServiceCard = ({ service, index }: { service: typeof serviceData[0], index
       variants={cardVariants}
       initial="hidden"
       animate={controls}
-      whileHover={{ 
-        scale: 1.05,
-        rotate: 2,
-        transition: { duration: 0.2 }
-      }}
-      whileTap={{ scale: 0.95 }}
-      className="bg-gray-900 p-6 rounded-md service-card border border-gray-800 hover:border-accent-500 transition-colors duration-300"
+      className="bg-gray-900/80 backdrop-blur-sm p-4 md:p-6 rounded-md service-card border border-gray-800 hover:border-accent-500 flex flex-col items-center justify-center text-center"
     >
       <motion.div 
-        className="mb-4"
+        className="mb-4 flex justify-center items-center"
         whileHover={{ 
           rotate: 360,
-          scale: 1.2,
-          transition: { duration: 0.6 }
+          scale: 1.2
         }}
       >
         {service.icon}
       </motion.div>
-      <h3 className="text-xl font-bold mb-2">{service.title}</h3>
-      <p className="text-gray-400">{service.description}</p>
+      <h3 className="text-lg md:text-xl font-bold mb-2">{service.title}</h3>
+      <p className="text-sm md:text-base text-gray-400">{service.description}</p>
     </motion.div>
   );
 };
@@ -152,7 +145,7 @@ const Services = () => {
   };
 
   return (
-    <section id="services" className="py-24 relative overflow-hidden">
+    <section id="services" className="py-16 md:py-24 relative overflow-hidden">
       <motion.div 
         className="absolute inset-0 bg-gradient-to-b from-gray-900 to-black z-0"
         variants={backgroundVariants}
@@ -179,10 +172,10 @@ const Services = () => {
           variants={titleVariants}
           initial="hidden"
           animate={controls}
-          className="text-center mb-16"
+          className="text-center mb-12 md:mb-16"
         >
           <motion.h2 
-            className="text-4xl md:text-5xl font-bold mb-4"
+            className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4"
             whileHover={{
               scale: 1.05,
               transition: { duration: 0.2 }
@@ -191,7 +184,7 @@ const Services = () => {
             Our Services
           </motion.h2>
           <motion.p 
-            className="text-xl text-gray-400 max-w-2xl mx-auto"
+            className="text-base md:text-xl text-gray-400 max-w-2xl mx-auto"
             variants={{
               hidden: { opacity: 0, y: 20 },
               visible: { 
@@ -205,7 +198,7 @@ const Services = () => {
           </motion.p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
           {serviceData.map((service, index) => (
             <ServiceCard key={index} service={service} index={index} />
           ))}

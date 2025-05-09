@@ -1,8 +1,6 @@
 import React, { Suspense, useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown, ChevronLeft, ChevronRight } from 'lucide-react';
-import { Canvas } from '@react-three/fiber';
-import AnimatedBackground from './3d/AnimatedBackground';
 import gsap from 'gsap';
 
 
@@ -65,17 +63,8 @@ const Hero = () => {
   return (
     <section
       id="home"
-      className="relative min-h-screen flex flex-col justify-center items-center pt-20 overflow-hidden"
+      className="relative min-h-[100svh] flex flex-col justify-center items-center pt-16 md:pt-20 overflow-hidden"
     >
-      {/* 3D Background */}
-      <div className="absolute inset-0 z-0">
-        <Canvas camera={{ position: [0, 0, 1] }}>
-          <Suspense fallback={null}>
-            <AnimatedBackground />
-          </Suspense>
-        </Canvas>
-      </div>
-
       {/* Background slider with enhanced overlay */}
       <div className="absolute inset-0 bg-black z-0">
         <AnimatePresence initial={false}>
@@ -98,12 +87,12 @@ const Hero = () => {
       </div>
       
       {/* Content */}
-      <div className="container mx-auto px-4 z-10 flex flex-col items-center">
+      <div className="container mx-auto px-4 sm:px-6 z-10 flex flex-col items-center">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={isLoaded ? { opacity: 1, y: 0 } : {}}
           transition={{ delay: 0.2, duration: 0.8 }}
-          className="text-center mb-8 relative"
+          className="text-center mb-8 relative px-2 sm:px-4 w-full max-w-4xl"
         >
           <AnimatePresence mode="wait">
             <motion.div
@@ -114,9 +103,9 @@ const Hero = () => {
               transition={{ duration: 0.5 }}
               className="relative"
             >
-              <h1 className="hero-title text-4xl md:text-6xl lg:text-8xl font-bold mb-4 tracking-tight">
+              <h1 className="hero-title text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black mb-2 md:mb-4 tracking-tight leading-tight">
                 {carSlides[currentSlide].title}
-                <span className="hero-subtitle block text-accent-500 mt-2">
+                <span className="hero-subtitle block text-accent-500 mt-1 sm:mt-2 text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold">
                   {carSlides[currentSlide].subtitle}
                 </span>
               </h1>
@@ -124,7 +113,7 @@ const Hero = () => {
           </AnimatePresence>
           
           <motion.p 
-            className="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto mb-8"
+            className="text-base md:text-lg text-gray-300 max-w-xs md:max-w-2xl mx-auto mb-8 md:mb-10 leading-relaxed px-4"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.7 }}
@@ -133,49 +122,66 @@ const Hero = () => {
           </motion.p>
           
           <motion.div 
-            className="flex justify-center gap-4"
+            className="flex flex-col md:flex-row justify-center gap-4 md:gap-6 w-full max-w-sm md:max-w-none mx-auto px-6 md:px-0"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 1 }}
           >
             <motion.a
               href="#services"
-              whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(255, 160, 224, 0.5)" }}
+              whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.95 }}
-              className="inline-block bg-accent-500 text-white font-bold py-3 px-8 rounded-sm transition-all hover:bg-accent-600"
+              className="w-full md:w-auto text-center bg-accent-500 text-white font-semibold py-4 px-8 rounded-lg transition-all duration-300 hover:bg-accent-600 shadow-lg hover:shadow-xl hover:shadow-accent-500/30 text-base tracking-wider uppercase"
             >
-              EXPLORE SERVICES
+              Explore Services
             </motion.a>
             <motion.a
               href="#contact"
-              whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(255, 255, 255, 0.3)" }}
+              whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.95 }}
-              className="inline-block bg-white text-black font-bold py-3 px-8 rounded-sm transition-all hover:bg-gray-100"
+              className="w-full md:w-auto text-center bg-white/10 backdrop-blur text-white font-semibold py-4 px-8 rounded-lg transition-all duration-300 hover:bg-white/20 shadow-lg hover:shadow-xl hover:shadow-white/10 text-base tracking-wider uppercase border border-white/20"
             >
-              CONTACT US
+              Contact Us
             </motion.a>
           </motion.div>
         </motion.div>
+      </div>
 
-        {/* Enhanced slider controls */}
-        <div className="absolute top-1/2 left-4 right-4 flex justify-between items-center z-20 -translate-y-1/2">
+      {/* Enhanced slider controls */}
+      <div className="absolute top-1/2 hidden md:flex left-4 right-4 justify-between items-center z-20 -translate-y-1/2">
+        <motion.button
+          whileHover={{ scale: 1.1, boxShadow: "0 0 15px rgba(255, 255, 255, 0.3)" }}
+          whileTap={{ scale: 0.9 }}
+          onClick={prevSlide}
+          className="bg-white/10 backdrop-blur-sm p-2 rounded-full"
+        >
+          <ChevronLeft className="w-6 h-6" />
+        </motion.button>
+        <motion.button
+          whileHover={{ scale: 1.1, boxShadow: "0 0 15px rgba(255, 255, 255, 0.3)" }}
+          whileTap={{ scale: 0.9 }}
+          onClick={nextSlide}
+          className="bg-white/10 backdrop-blur-sm p-2 rounded-full"
+        >
+          <ChevronRight className="w-6 h-6" />
+        </motion.button>
+      </div>
+
+      {/* Mobile-optimized slide indicators */}
+      <div className="absolute bottom-24 sm:bottom-20 left-0 right-0 flex justify-center gap-3 px-4">
+        {carSlides.map((_, index) => (
           <motion.button
-            whileHover={{ scale: 1.1, boxShadow: "0 0 15px rgba(255, 255, 255, 0.3)" }}
+            key={index}
+            onClick={() => setCurrentSlide(index)}
+            whileHover={{ scale: 1.2 }}
             whileTap={{ scale: 0.9 }}
-            onClick={prevSlide}
-            className="bg-white/10 backdrop-blur-sm p-2 rounded-full"
-          >
-            <ChevronLeft className="w-6 h-6" />
-          </motion.button>
-          <motion.button
-            whileHover={{ scale: 1.1, boxShadow: "0 0 15px rgba(255, 255, 255, 0.3)" }}
-            whileTap={{ scale: 0.9 }}
-            onClick={nextSlide}
-            className="bg-white/10 backdrop-blur-sm p-2 rounded-full"
-          >
-            <ChevronRight className="w-6 h-6" />
-          </motion.button>
-        </div>
+            className={`h-1.5 rounded-full transition-all ${
+              currentSlide === index 
+                ? 'bg-accent-500 w-8 sm:w-12' 
+                : 'bg-white/30 w-4 sm:w-6 hover:bg-white/50'
+            }`}
+          />
+        ))}
       </div>
 
       {/* Enhanced scroll indicator */}
@@ -183,33 +189,19 @@ const Hero = () => {
         initial={{ opacity: 0 }}
         animate={isLoaded ? { opacity: 1 } : {}}
         transition={{ delay: 1.2, duration: 0.5 }}
-        className="absolute bottom-10 left-1/2 transform -translate-x-1/2"
+        className="absolute bottom-8 sm:bottom-10 left-1/2 transform -translate-x-1/2"
       >
         <motion.div
           animate={{ 
-            y: [0, 10, 0],
-            boxShadow: ["0 0 0px rgba(255, 160, 224, 0)", "0 0 20px rgba(255, 160, 224, 0.5)", "0 0 0px rgba(255, 160, 224, 0)"]
+            y: [0, 8, 0],
+            opacity: [0.5, 1, 0.5]
           }}
-          transition={{ repeat: Infinity, duration: 1.5 }}
+          transition={{ repeat: Infinity, duration: 2 }}
+          className="bg-white/10 backdrop-blur-sm p-2 rounded-full"
         >
-          <ChevronDown size={32} className="text-accent-500" />
+          <ChevronDown size={24} className="text-accent-500" />
         </motion.div>
       </motion.div>
-
-      {/* Enhanced slide indicators */}
-      <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2 flex gap-2">
-        {carSlides.map((_, index) => (
-          <motion.button
-            key={index}
-            onClick={() => setCurrentSlide(index)}
-            whileHover={{ scale: 1.2 }}
-            whileTap={{ scale: 0.9 }}
-            className={`w-2 h-2 rounded-full transition-all ${
-              currentSlide === index ? 'bg-accent-500 w-8' : 'bg-white/50'
-            }`}
-          />
-        ))}
-      </div>
     </section>
   );
 };

@@ -9,7 +9,8 @@ import Contact from './components/Contact';
 import Footer from './components/Footer';
 import Loader from './components/Loader';
 import BookNowButton from './components/BookNowButton';
-import Car3DModel from './components/3d/Car3DModel';
+import VideoDisplay from './components/CarVideo';
+import Gallery from './components/Gallery';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -37,13 +38,13 @@ function App() {
       <Navbar />
       <main>
         <Hero />
+        <VideoDisplay />
         <Services />
-        <Car3DModel />
         <About />
+        <Gallery />
         <Partners />
         <Contact />
         <BookNowButton />
-        
       </main>
       <Footer />
     </motion.div>
