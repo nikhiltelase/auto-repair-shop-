@@ -1,16 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Suspense, lazy } from 'react';
 import { motion } from 'framer-motion';
 import Navbar from './components/Navbar';
-import Hero from './components/Hero';
-import About from './components/About';
-import Services from './components/Services';
-import Partners from './components/Partners';
-import Contact from './components/Contact';
-import Footer from './components/Footer';
-import Loader from './components/Loader';
-import BookNowButton from './components/BookNowButton';
-import VideoDisplay from './components/CarVideo';
-import Gallery from './components/Gallery';
+
+// Lazy load components
+const Hero = lazy(() => import('./components/Hero'));
+const About = lazy(() => import('./components/About'));
+const Services = lazy(() => import('./components/Services'));
+const Partners = lazy(() => import('./components/Partners'));
+const Contact = lazy(() => import('./components/Contact'));
+const Footer = lazy(() => import('./components/Footer'));
+const Loader = lazy(() => import('./components/Loader'));
+const BookNowButton = lazy(() => import('./components/BookNowButton'));
+const VideoDisplay = lazy(() => import('./components/CarVideo'));
+const Gallery = lazy(() => import('./components/Gallery'));
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -36,17 +38,19 @@ function App() {
       className="bg-black text-white min-h-screen"
     >
       <Navbar />
-      <main>
-        <Hero />
-        <VideoDisplay />
-        <Services />
-        <About />
-        <Gallery />
-        <Partners />
-        <Contact />
-        <BookNowButton />
-      </main>
-      <Footer />
+      <Suspense fallback={<Loader />}>
+        <main>
+          <Hero />
+          <VideoDisplay />
+          <Services />
+          <About />
+          <Gallery />
+          <Partners />
+          <Contact />
+          <BookNowButton />
+        </main>
+        <Footer />
+      </Suspense>
     </motion.div>
   );
 }
