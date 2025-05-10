@@ -88,7 +88,7 @@ const Contact = () => {
             {[
               { icon: MapPin, title: "Our Location", content: "232 Fairall St unit 2B, Ajax, ON L1S 1R6" },
               { icon: Phone, title: "Phone", content: ["647-594-4201 (Sales and HR)", "647-575-9785 (Service)"] },
-              { icon: Mail, title: "Email", content: "info@leslieautoperformance.com" },
+              { icon: Mail, title: "Email", content: "Leslieauto01@gmail.com" },
               { icon: Clock, title: "Hours", content: ["Monday-Friday: 9:30am - 7pm", "Saturday: 9am - 4pm", "Sunday: Closed"] }
             ].map((item, index) => (
               <motion.div
