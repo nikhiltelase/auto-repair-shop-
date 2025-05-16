@@ -46,14 +46,16 @@ export default function BookNowButton() {
                   exit={{ opacity: 0, y: 10 }}
                   className="absolute bottom-full mb-2 right-0 bg-white text-gray-800 px-3 py-2 md:px-4 md:py-2 rounded-lg shadow-lg text-xs md:text-sm whitespace-nowrap"
                 >
-                  <span className="font-medium">Schedule Your Appointment</span>
+                  <span className="font-medium">Book Now</span>
                   <div className="absolute bottom-0 right-6 transform translate-y-1/2 rotate-45 w-2 h-2 bg-white" />
                 </motion.div>
               )}
             </AnimatePresence>
 
             <motion.a
-              href="#contact"
+              href="https://www.instagram.com/leslieautoperformance"
+              target="_blank"
+              rel="noopener noreferrer"
               onMouseEnter={() => setShowTooltip(true)}
               onMouseLeave={() => setShowTooltip(false)}
               whileHover={{ scale: 1.05 }}

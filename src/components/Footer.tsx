@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { motion, useAnimation, AnimatePresence } from 'framer-motion';
-import { Facebook, Instagram, Twitter, Youtube, ArrowUp } from 'lucide-react';
+import { Facebook, Instagram, ArrowUp } from 'lucide-react';
 
 const Footer = () => {
   const controls = useAnimation();
@@ -78,13 +78,11 @@ const Footer = () => {
             <motion.div className="flex space-x-4">
               {[
                 { icon: Facebook, color: '#1877f2' },
-                { icon: Instagram, color: '#e4405f' },
-                { icon: Twitter, color: '#1da1f2' },
-                { icon: Youtube, color: '#ff0000' }
+                { icon: Instagram, color: '#e4405f', link: 'https://www.instagram.com/leslieautoperformance' }
               ].map((social, index) => (
                 <motion.a
                   key={index}
-                  href="#"
+                  href={social.link || "#"}
                   whileHover={{ 
                     y: -5,
                     scale: 1.2,
@@ -99,7 +97,6 @@ const Footer = () => {
               ))}
             </motion.div>
           </motion.div>
-
           {['Quick Links', 'Services'].map((title, index) => (
             <motion.div
               key={title}
@@ -107,8 +104,8 @@ const Footer = () => {
               className="relative"
             >
               <motion.h3 
-                className="text-lg font-bold mb-4"
                 whileHover={{ color: 'var(--accent-500)' }}
+                className="text-lg font-bold mb-4"
               >
                 {title}
               </motion.h3>
@@ -145,7 +142,6 @@ const Footer = () => {
             </motion.div>
           ))}
         </div>
-
         <motion.div 
           variants={itemVariants}
           className="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center"
@@ -156,20 +152,19 @@ const Footer = () => {
           >
             © {new Date().getFullYear()} Leslie Auto Performance. All rights reserved.
           </motion.p>
-
           <motion.button
             onClick={scrollToTop}
             whileHover={{ 
               y: -5,
               boxShadow: '0 0 20px var(--accent-500)'
             }}
-            whileTap={{ scale: 0.9 }}
             className="bg-gray-900 p-3 rounded-full relative group overflow-hidden"
           >
             <motion.div
               className="absolute inset-0 bg-accent-500 opacity-0 group-hover:opacity-20 transition-opacity"
               animate={{
                 scale: [1, 1.5, 1],
+                transitionEnd: { display: "none" }
               }}
               transition={{ duration: 1.5, repeat: Infinity }}
             />

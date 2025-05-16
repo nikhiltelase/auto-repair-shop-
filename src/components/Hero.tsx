@@ -11,12 +11,12 @@ const carSlides = [
     subtitle: 'Unleash Your Car\'s Potential',
   },
   {
-    image: 'https://images.pexels.com/photos/3752169/pexels-photo-3752169.jpeg',
+    image: 'https://www.autostorico.co.uk/wp-content/uploads/GTR1-1290x830.jpg',
     title: 'PRECISION',
     subtitle: 'Expert Craftsmanship',
   },
   {
-    image: 'https://images.pexels.com/photos/3786091/pexels-photo-3786091.jpeg',
+    image: 'https://rukminim2.flixcart.com/image/832/832/poster/3/f/c/athah-nissan-skyline-gt-r-r34-poster-atheddwpcar3820-large-original-imaefbswv5xvhcfy.jpeg?q=70&crop=false',
     title: 'PERFECTION',
     subtitle: 'Every Detail Matters',
   },
