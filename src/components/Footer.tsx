@@ -77,7 +77,7 @@ const Footer = () => {
 
             <motion.div className="flex space-x-4">
               {[
-                { icon: Facebook, color: '#1877f2' },
+                { icon: Facebook, color: '#1877f2', link: 'https://www.facebook.com/share/16GZ3kthpD/' },
                 { icon: Instagram, color: '#e4405f', link: 'https://www.instagram.com/leslieautoperformance' }
               ].map((social, index) => (
                 <motion.a
